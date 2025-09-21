@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoryMicroservices", "Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PurchaseService", "PurchaseService\PurchaseService.csproj", "{2510FB63-D8EB-4BB6-B1EB-0DF088C0724E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{25575B4F-A1DB-4AC9-AD34-38F7FCCD4BE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2510FB63-D8EB-4BB6-B1EB-0DF088C0724E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2510FB63-D8EB-4BB6-B1EB-0DF088C0724E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2510FB63-D8EB-4BB6-B1EB-0DF088C0724E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25575B4F-A1DB-4AC9-AD34-38F7FCCD4BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25575B4F-A1DB-4AC9-AD34-38F7FCCD4BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25575B4F-A1DB-4AC9-AD34-38F7FCCD4BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25575B4F-A1DB-4AC9-AD34-38F7FCCD4BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
