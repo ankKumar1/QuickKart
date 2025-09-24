@@ -6,14 +6,13 @@ namespace QuickKartClientApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductClientController : Controller
+    public class CategoryClientController : Controller
     {
         IHttpClientFactory httpClientFactory;
         JsonSerializerOptions jsonSerializerOptions;
-        public ProductClientController(IHttpClientFactory _httpClientFactory)
+        public CategoryClientController(IHttpClientFactory _httpClientFactory)
         {
             httpClientFactory = _httpClientFactory;
-
             jsonSerializerOptions = new JsonSerializerOptions()
             {
                 PropertyNameCaseInsensitive = true
@@ -21,12 +20,12 @@ namespace QuickKartClientApp.Controllers
         }
 
         [HttpGet]
-        public JsonResult FetchAllProductDetails()
+        public JsonResult FetchAllCategoryDetails()
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
 
-            List<Product> listOfProducts = new List<Product>();
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/ProductService");
+            List<Category> listOfCategorys = new List<Category>();
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/CategoryMicroservices");
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -38,54 +37,24 @@ namespace QuickKartClientApp.Controllers
                 httpContentTask.Wait();
                 string serializedData = httpContentTask.Result;
 
-                listOfProducts = JsonSerializer
-                    .Deserialize<List<Product>>(serializedData, jsonSerializerOptions);
+                listOfCategorys = JsonSerializer
+                    .Deserialize<List<Category>>(serializedData, jsonSerializerOptions);
             }
             else
             {
-                listOfProducts = null;
+                listOfCategorys = null;
             }
 
-            return Json(listOfProducts);
-        }
-
-        [HttpGet("{productId}")]
-        public JsonResult FetchAllProductDetails(string productId)
-        {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
-            Product product;
-
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/ProductService/" + productId);
-            httpResponseMessageTask.Wait();
-
-            HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
-
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                HttpContent httpContent = httpResponseMessage.Content;
-
-                Task<string> httpContentTask = httpContent.ReadAsStringAsync();
-                httpContentTask.Wait();
-                string serializedData = httpContentTask.Result;
-
-                product = JsonSerializer
-                    .Deserialize<Product>(serializedData, jsonSerializerOptions);
-            }
-            else
-            {
-                product = null;
-            }
-
-            return Json(product);
+            return Json(listOfCategorys);
         }
 
         [HttpPost]
-        public JsonResult AddNewProductDetails(Product product)
+        public JsonResult AddNewCategoryDetails(Category category)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
             bool postResult = false;
             string message = string.Empty;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PostAsJsonAsync("api/ProductService", product);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PostAsJsonAsync("api/CategoryMicroservices", category);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -104,23 +73,22 @@ namespace QuickKartClientApp.Controllers
 
             if (postResult)
             {
-                message = "New product details addition in the database was successful!";
+                message = "New category details addition in the database was successful!";
             }
             else
             {
                 message = "Unsuccessful addition operation!!";
             }
             return Json(message);
-
         }
 
         [HttpPut]
-        public JsonResult UpdateProductDetails(Product product)
+        public JsonResult UpdateCategoryDetails(Category category)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
             int status = -1;
             string message = string.Empty;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PutAsJsonAsync("api/ProductService", product);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PutAsJsonAsync("api/CategoryMicroservices", category);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -139,7 +107,7 @@ namespace QuickKartClientApp.Controllers
 
             if (status == 1)
             {
-                message = "Product details update in the database was successful!";
+                message = "Category details update in the database was successful!";
             }
             else
             {
@@ -148,12 +116,12 @@ namespace QuickKartClientApp.Controllers
             return Json(message);
         }
 
-        [HttpDelete("{productId}")]
-        public JsonResult DeleteProductDetails(string productId)
+        [HttpDelete("{categoryId}")]
+        public JsonResult DeleteCategoryDetails(byte categoryId)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
             bool deleteResult;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.DeleteAsync("api/ProductService/" + productId);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.DeleteAsync("api/CategoryMicroservices/" + categoryId);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -173,7 +141,37 @@ namespace QuickKartClientApp.Controllers
             return Json(deleteResult);
         }
 
+        [HttpGet("{categoryId}")]
+        public JsonResult FetchAllCategoryDetails(byte categoryId)
+        {
+            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
+            Category category;
+
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/CategoryMicroServices/" + categoryId);
+            httpResponseMessageTask.Wait();
+
+            HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
+
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                HttpContent httpContent = httpResponseMessage.Content;
+
+                Task<string> httpContentTask = httpContent.ReadAsStringAsync();
+                httpContentTask.Wait();
+                string serializedData = httpContentTask.Result;
+
+                category = JsonSerializer
+                    .Deserialize<Category>(serializedData, jsonSerializerOptions);
+            }
+            else
+            {
+                category = null;
+            }
+
+            return Json(category);
+        }
+
+
 
     }
 }
-

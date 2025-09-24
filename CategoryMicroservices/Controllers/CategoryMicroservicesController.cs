@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using CategoryMicroservices.Models;
+﻿using CategoryMicroservices.Models;
 using CategoryMicroservices.Repository;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -46,7 +45,7 @@ namespace CategoryMicroservices.Controllers
             return Json(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{categoryId}")]
         public JsonResult DeleteCategory(byte categoryId)
         {
             bool result = repository.DeleteCategory(categoryId);

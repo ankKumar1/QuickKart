@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+
 namespace QuickKartClientApp
 {
     public class Program
@@ -13,6 +15,18 @@ namespace QuickKartClientApp
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient("ProductServices", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("https://localhost:44344/");
+                httpClient.DefaultRequestHeaders.Accept
+                           .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+            builder.Services.AddHttpClient("CategoryServices", httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("https://localhost:44341/");
+            });
+
+
 
 
             var app = builder.Build();
