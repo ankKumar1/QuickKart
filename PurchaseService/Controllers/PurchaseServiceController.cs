@@ -43,7 +43,7 @@ namespace PurchaseService.Controllers
             return Json(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public JsonResult DeletePurchase(int id)
         {
             bool result = repository.DeletePurchase(id);

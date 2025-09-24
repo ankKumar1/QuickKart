@@ -43,7 +43,7 @@ namespace UserService.Controllers
             return Json(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{emailId}")]
         public JsonResult DeleteUser(string emaild)
         {
             bool result = repository.DeleteUser(emaild);

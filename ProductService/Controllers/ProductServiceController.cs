@@ -43,7 +43,7 @@ namespace ProductService.Controllers
             return Json(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public JsonResult DeleteProduct(string id)
         {
             bool result = repository.DeleteProduct(id);
