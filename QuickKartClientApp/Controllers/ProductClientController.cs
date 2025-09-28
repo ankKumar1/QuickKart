@@ -23,10 +23,10 @@ namespace QuickKartClientApp.Controllers
         [HttpGet]
         public JsonResult FetchAllProductDetails()
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
 
             List<Product> listOfProducts = new List<Product>();
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/ProductService");
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("/apiGateway/GatewayForProduct");
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -52,10 +52,10 @@ namespace QuickKartClientApp.Controllers
         [HttpGet("{productId}")]
         public JsonResult FetchAllProductDetails(string productId)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             Product product;
 
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/ProductService/" + productId);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("/apiGateway/GatewayForProduct/" + productId);
             httpResponseMessageTask.Wait();
 
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
@@ -82,10 +82,10 @@ namespace QuickKartClientApp.Controllers
         [HttpPost]
         public JsonResult AddNewProductDetails(Product product)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             bool postResult = false;
             string message = string.Empty;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PostAsJsonAsync("api/ProductService", product);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PostAsJsonAsync("/apiGateway/GatewayForProduct", product);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -117,10 +117,10 @@ namespace QuickKartClientApp.Controllers
         [HttpPut]
         public JsonResult UpdateProductDetails(Product product)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             int status = -1;
             string message = string.Empty;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PutAsJsonAsync("api/ProductService", product);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PutAsJsonAsync("/apiGateway/GatewayForProduct", product);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -151,9 +151,9 @@ namespace QuickKartClientApp.Controllers
         [HttpDelete("{productId}")]
         public JsonResult DeleteProductDetails(string productId)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("ProductServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             bool deleteResult;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.DeleteAsync("api/ProductService/" + productId);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.DeleteAsync("/apiGateway/GatewayForProduct/" + productId);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
             if (httpResponseMessage.IsSuccessStatusCode)
