@@ -1,6 +1,8 @@
-using System.Net.Http.Headers;
 
-namespace QuickKartClientApp
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+
+namespace QuickKartApiGateway
 {
     public class Program
     {
@@ -14,21 +16,8 @@ namespace QuickKartClientApp
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddHttpClient();
-            builder.Services.AddHttpClient("ProductServices", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri("https://localhost:44344/");
-                httpClient.DefaultRequestHeaders.Accept
-                           .Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            });
-            builder.Services.AddHttpClient("CategoryServices", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri("https://localhost:44341/");
-            });
-            builder.Services.AddHttpClient("apiGatewayServices", httpClient =>
-            {
-                httpClient.BaseAddress = new Uri("https://localhost:7073/");
-            });
+            builder.Configuration.AddJsonFile("ocelot.json");
+            builder.Services.AddOcelot(builder.Configuration);
 
 
             var app = builder.Build();
@@ -44,8 +33,9 @@ namespace QuickKartClientApp
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            app.UseOcelot().Wait();
 
             app.Run();
         }

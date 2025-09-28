@@ -22,10 +22,10 @@ namespace QuickKartClientApp.Controllers
         [HttpGet]
         public JsonResult FetchAllCategoryDetails()
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
 
             List<Category> listOfCategorys = new List<Category>();
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/CategoryMicroservices");
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("/apiGateway/GatewayForCategory");
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -51,10 +51,10 @@ namespace QuickKartClientApp.Controllers
         [HttpPost]
         public JsonResult AddNewCategoryDetails(Category category)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             bool postResult = false;
             string message = string.Empty;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PostAsJsonAsync("api/CategoryMicroservices", category);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PostAsJsonAsync("/apiGateway/GatewayForCategory", category);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -85,10 +85,10 @@ namespace QuickKartClientApp.Controllers
         [HttpPut]
         public JsonResult UpdateCategoryDetails(Category category)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             int status = -1;
             string message = string.Empty;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PutAsJsonAsync("api/CategoryMicroservices", category);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.PutAsJsonAsync("/apiGateway/GatewayForCategory", category);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
 
@@ -119,9 +119,9 @@ namespace QuickKartClientApp.Controllers
         [HttpDelete("{categoryId}")]
         public JsonResult DeleteCategoryDetails(byte categoryId)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             bool deleteResult;
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.DeleteAsync("api/CategoryMicroservices/" + categoryId);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.DeleteAsync("/apiGateway/GatewayForCategory/" + categoryId);
             httpResponseMessageTask.Wait();
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
             if (httpResponseMessage.IsSuccessStatusCode)
@@ -144,10 +144,10 @@ namespace QuickKartClientApp.Controllers
         [HttpGet("{categoryId}")]
         public JsonResult FetchAllCategoryDetails(byte categoryId)
         {
-            HttpClient httpClient = httpClientFactory.CreateClient("CategoryServices");
+            HttpClient httpClient = httpClientFactory.CreateClient("apiGatewayServices");
             Category category;
 
-            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("api/CategoryMicroServices/" + categoryId);
+            Task<HttpResponseMessage> httpResponseMessageTask = httpClient.GetAsync("/apiGateway/GatewayForCategory/" + categoryId);
             httpResponseMessageTask.Wait();
 
             HttpResponseMessage httpResponseMessage = httpResponseMessageTask.Result;
