@@ -171,5 +171,7 @@ namespace QuickKartClientApp.Controllers
             return Json(category);
         }
 
+
+
     }
 }
